@@ -119,11 +119,7 @@ namespace Filmography
                         var searchResults1 = movieApp.SearchMoviesByTitle(searchTitle);
                         if (searchResults1.Any())
                         {
-                            Console.WriteLine("Результаты поиска:");
-                            foreach (var movie in searchResults1)
-                            {
-                                Console.WriteLine($"Название: {movie.Title}, Режиссер: {movie.Director}, Год: {movie.Year}");
-                            }
+                            DisplayMovie(searchResults1);
                         }
                         else
                         {
@@ -136,11 +132,7 @@ namespace Filmography
                         var searchResults2 = movieApp.SearchMoviesByDirector(searchDirector);
                         if (searchResults2.Any())
                         {
-                            Console.WriteLine("Результаты поиска:");
-                            foreach (var movie in searchResults2)
-                            {
-                                Console.WriteLine($"Название: {movie.Title}, Режиссер: {movie.Director}, Год: {movie.Year}");
-                            }
+                            DisplayMovie(searchResults2);
                         }
                         else
                         {
@@ -155,11 +147,7 @@ namespace Filmography
                             var searchResults3 = movieApp.SearchMoviesByYear(searchYear);
                             if (searchResults3.Any())
                             {
-                                Console.WriteLine("Результаты поиска:");
-                                foreach (var movie in searchResults3)
-                                {
-                                    Console.WriteLine($"Название: {movie.Title}, Режиссер: {movie.Director}, Год: {movie.Year}");
-                                }
+                                DisplayMovie(searchResults3);
                             }
                             else
                             {
@@ -172,6 +160,7 @@ namespace Filmography
                         }
                         break;
                     case "0":
+                        Console.WriteLine("До свидания!");
                         exit = true;
                         break;
 
@@ -179,6 +168,15 @@ namespace Filmography
                         Console.WriteLine("Неверный выбор.");
                         break;
                 }
+            }
+        }
+
+        public void DisplayMovie(List<Movie> movies)
+        {
+            Console.WriteLine("Результаты поиска:");
+            foreach (var movie in movies)
+            {
+                Console.WriteLine($"Название: {movie.Title}, Режиссер: {movie.Director}, Год: {movie.Year}");
             }
         }
     }
