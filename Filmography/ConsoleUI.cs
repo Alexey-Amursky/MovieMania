@@ -32,6 +32,7 @@ namespace Filmography
                 Console.WriteLine("6. Поиск по названию");
                 Console.WriteLine("7. Поиск по режиссеру");
                 Console.WriteLine("8. Поиск по году");
+                Console.WriteLine("9. Поиск по жанру");
                 Console.WriteLine("0. Выйти");
 
                 string choice = Console.ReadLine();
