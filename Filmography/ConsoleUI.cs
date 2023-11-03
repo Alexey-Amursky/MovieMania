@@ -201,19 +201,15 @@ namespace Filmography
         }
         public void DisplayAllMovies(List<Movie> movies)
         {
-            movies = movieApp.GetAllMovies();
-            if (movies.Any())
+            foreach (var movie in movies)
             {
-                Console.WriteLine("Список фильмов:");
-                foreach (var movie in movies)
-                {
-                    Console.WriteLine($"Название: {movie.Title}, Режиссер: {movie.Director}, Год: {movie.Year}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Фильмотека пуста.");
+                Console.WriteLine($"Название: {movie.Title}");
+                Console.WriteLine($"Режиссер: {movie.Director}");
+                Console.WriteLine($"Год: {movie.Year}");
+                //Console.WriteLine("Жанры: " + string.Join(", ", movie.Genres));
+                Console.WriteLine();
             }
         }
+        
     }
 }
