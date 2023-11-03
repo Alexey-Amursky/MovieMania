@@ -14,11 +14,11 @@ namespace Filmography
         {
             movies.Add(movie);
         }
-        public void EditMovie(int index, Movie updatedMovie)
+        public void EditMovie(int index, Movie newMovie)
         {
             if (index >= 0 && index < movies.Count)
             {
-                movies[index] = updatedMovie;
+                movies[index] = newMovie;
             }
         }
         public void DeleteMovie(int index)
@@ -30,14 +30,12 @@ namespace Filmography
         }
         public List<Movie> SearchMoviesByTitle(string title)
         {
-            return movies.Where(movie => movie.Title.Contains(title, StringComparison.OrdinalIgnoreCase)).ToList();
+            return movies.Where(movie => movie.Title.Contains(title)).ToList();
         }
-
         public List<Movie> SearchMoviesByDirector(string director)
         {
-            return movies.Where(movie => movie.Director.Contains(director, StringComparison.OrdinalIgnoreCase)).ToList();
+            return movies.Where(movie => movie.Director.Contains(director)).ToList();
         }
-
         public List<Movie> SearchMoviesByYear(int year)
         {
             return movies.Where(movie => movie.Year == year).ToList();
@@ -45,6 +43,10 @@ namespace Filmography
         public List<Movie> GetAllMovies()
         {
             return movies;
+        }
+        public int GetMovieCount()
+        {
+            return movies.Count;
         }
     }
 }

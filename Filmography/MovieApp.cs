@@ -23,14 +23,47 @@ namespace Filmography
                 movieLibrary.AddMovie(movie);
             }
         }
-
         public void AddMovie(string title, string director, int year)
         {
             Movie movie = new Movie { Title = title, Director = director, Year = year };
             movieLibrary.AddMovie(movie);
             Console.WriteLine("Фильм успешно добавлен.");
         }
-
+        public int GetMovieCount()
+        {
+            return movieLibrary.GetMovieCount();
+        }
+        public void EditMovie(int index, string newTitle, string newDirector, int newYear)
+        {
+            if (index >= 0 && index < movieLibrary.GetMovieCount())
+            {
+                movieLibrary.EditMovie(index, new Movie
+                {
+                    Title = newTitle,
+                    Director = newDirector,
+                    Year = newYear
+                });
+            }
+        }
+        public void DeleteMovie(int index)
+        {
+            if (index >= 0 && index < movieLibrary.GetMovieCount())
+            {
+                movieLibrary.DeleteMovie(index);
+            }
+        }
+        public List<Movie> SearchMoviesByTitle(string title)
+        {
+            return movieLibrary.SearchMoviesByTitle(title);
+        }
+        public List<Movie> SearchMoviesByDirector(string director)
+        {
+            return movieLibrary.SearchMoviesByDirector(director);
+        }
+        public List<Movie> SearchMoviesByYear(int year)
+        {
+            return movieLibrary.SearchMoviesByYear(year);
+        }
         public void DisplayAllMovies()
         {
             List<Movie> movies = movieLibrary.GetAllMovies();
