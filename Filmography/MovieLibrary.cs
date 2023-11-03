@@ -40,6 +40,10 @@ namespace Filmography
         {
             return movies.Where(movie => movie.Year == year).ToList();
         }
+        public List<Movie> SearchMoviesByGenre(string genre)
+        {
+            return movies.Where(movie => movie.Genres.Contains(genre)).ToList();
+        }
         public List<Movie> GetAllMovies()
         {
             return movies;

@@ -23,26 +23,19 @@ namespace Filmography
                 movieLibrary.AddMovie(movie);
             }
         }
-        public void AddMovie(string title, string director, int year)
+        public void AddMovie(string title, string director, int year, List<string> genre)
         {
-            Movie movie = new Movie { Title = title, Director = director, Year = year };
-            movieLibrary.AddMovie(movie);
-            Console.WriteLine("Фильм успешно добавлен.");
+            Movie movie = new Movie(title, director, year, genre);
         }
         public int GetMovieCount()
         {
             return movieLibrary.GetMovieCount();
         }
-        public void EditMovie(int index, string newTitle, string newDirector, int newYear)
+        public void EditMovie(int index, string newTitle, string newDirector, int newYear, List<string> genre)
         {
             if (index >= 0 && index < movieLibrary.GetMovieCount())
             {
-                movieLibrary.EditMovie(index, new Movie
-                {
-                    Title = newTitle,
-                    Director = newDirector,
-                    Year = newYear
-                });
+                movieLibrary.EditMovie(index, new Movie {Title = newTitle,Director = newDirector,Year = newYear, Genres = genre });
             }
         }
         public void DeleteMovie(int index)
@@ -64,29 +57,16 @@ namespace Filmography
         {
             return movieLibrary.SearchMoviesByYear(year);
         }
-        public void DisplayAllMovies()
+        public List<Movie> SearchMoviesByGenre(string genre)
         {
-            List<Movie> movies = movieLibrary.GetAllMovies();
-
-            if (movies.Any())
-            {
-                Console.WriteLine("Список фильмов:");
-                foreach (var movie in movies)
-                {
-                    Console.WriteLine($"Название: {movie.Title}, Режиссер: {movie.Director}, Год: {movie.Year}");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Фильмотека пуста.");
-            }
+            return movieLibrary.SearchMoviesByGenre(genre);
         }
+        public List<Movie> GetAllMovies() => movieLibrary.GetAllMovies();
 
         public void SaveDataToFile()
         {
             List<Movie> movies = movieLibrary.GetAllMovies();
             fileHandler.SaveMovies(filePath, movies);
-            Console.WriteLine("Данные сохранены в файл.");
         }
     }
 }
