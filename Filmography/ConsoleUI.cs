@@ -115,7 +115,7 @@ namespace Filmography
                         break;
                     case "6":
                         Console.Write("Введите часть названия фильма для поиска: ");
-                        string searchTitle = Console.ReadLine();
+                        string searchTitle = Console.ReadLine().ToLower();
                         var searchResults1 = movieApp.SearchMoviesByTitle(searchTitle);
                         if (searchResults1.Any())
                         {
@@ -128,7 +128,7 @@ namespace Filmography
                         break;
                     case "7":
                         Console.Write("Введите часть имени режиссера для поиска: ");
-                        string searchDirector = Console.ReadLine();
+                        string searchDirector = Console.ReadLine().ToLower();
                         var searchResults2 = movieApp.SearchMoviesByDirector(searchDirector);
                         if (searchResults2.Any())
                         {

@@ -30,11 +30,11 @@ namespace Filmography
         }
         public List<Movie> SearchMoviesByTitle(string title)
         {
-            return movies.Where(movie => movie.Title.Contains(title)).ToList();
+            return movies.Where(movie => movie.Title.ToLower().Contains(title)).ToList();
         }
         public List<Movie> SearchMoviesByDirector(string director)
         {
-            return movies.Where(movie => movie.Director.Contains(director)).ToList();
+            return movies.Where(movie => movie.Director.ToLower().Contains(director)).ToList();
         }
         public List<Movie> SearchMoviesByYear(int year)
         {
