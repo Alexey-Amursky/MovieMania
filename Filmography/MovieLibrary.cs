@@ -14,7 +14,20 @@ namespace Filmography
         {
             movies.Add(movie);
         }
-
+        public void EditMovie(int index, Movie updatedMovie)
+        {
+            if (index >= 0 && index < movies.Count)
+            {
+                movies[index] = updatedMovie;
+            }
+        }
+        public void DeleteMovie(int index)
+        {
+            if (index >= 0 && index < movies.Count)
+            {
+                movies.RemoveAt(index);
+            }
+        }
         public List<Movie> GetAllMovies()
         {
             return movies;
