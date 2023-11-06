@@ -13,7 +13,7 @@ namespace Filmography
         public int Year { get; set; }
         public List<Genre> Genres { get; set; }
         public Movie() { }
-        public Movie(string title, string director, int year, List<Genre> genres)
+        public Movie(string title, string director, int year, List<Genre>? genres)
         {
             Title = title;
             Director = director;
@@ -22,3 +22,4 @@ namespace Filmography
         }
     }
 }
+// можно добавить рейтинг / описание фильма / возрастной рейтинг / актёрский состав / пользователь(история просмотров) / 
