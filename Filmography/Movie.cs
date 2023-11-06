@@ -20,6 +20,5 @@ namespace Filmography
             Year = year;
             Genres = genres ?? new List<Genre>();
         }
-
     }
 }
