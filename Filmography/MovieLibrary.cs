@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Filmography.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Filmography
 {
-    public class MovieLibrary
+    public class MovieLibrary : IMovieEditor, ISearchMovies
     {
         private List<Movie> movies = new List<Movie>();
 

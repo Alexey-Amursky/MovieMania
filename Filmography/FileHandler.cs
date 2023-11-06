@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Filmography.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Filmography
 {
-    public class FileHandler
+    public class FileHandler : IFileHandler
     {
         public void SaveMovies(string filePath, List<Movie> movies)
         {
