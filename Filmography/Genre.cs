@@ -9,9 +9,10 @@ namespace Filmography
     public enum Genre
     {
         Action,
+        Adventure,
+        Fantasy,
         Comedy,
         Horror,
-        Fantasy,
         Drama
     }
 }
