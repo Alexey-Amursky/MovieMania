@@ -40,7 +40,7 @@ namespace Filmography
         {
             return movies.Where(movie => movie.Year == year).ToList();
         }
-        public List<Movie> SearchMoviesByGenre(string genre)
+        public List<Movie> SearchMoviesByGenre(Genre genre)
         {
             return movies.Where(movie => movie.Genres.Contains(genre)).ToList();
         }
@@ -52,5 +52,6 @@ namespace Filmography
         {
             return movies.Count;
         }
+
     }
 }

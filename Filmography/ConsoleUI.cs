@@ -33,6 +33,7 @@ namespace Filmography
                 Console.WriteLine("7. Поиск по режиссеру");
                 Console.WriteLine("8. Поиск по году");
                 Console.WriteLine("9. Поиск по жанру");
+                Console.WriteLine("10. Показать все жанры");
                 Console.WriteLine("0. Выйти");
 
                 string choice = Console.ReadLine();
@@ -48,7 +49,10 @@ namespace Filmography
                         if (int.TryParse(Console.ReadLine(), out int year))
                         {
                             Console.Write("Введите жанры (через запятую): ");
-                            List<string> genres = Console.ReadLine().Split(',').Select(g => g.Trim()).ToList();
+                            string genresInput = Console.ReadLine();
+                            List<Genre> genres = genresInput.Split(',')
+                                                              .Select(s => Enum.Parse<Genre>(s.Trim()))
+                                                              .ToList();
                             movieApp.AddMovie(title, director, year, genres);
                             Console.WriteLine("Фильм успешно добавлен.");
                         }
@@ -74,14 +78,17 @@ namespace Filmography
                             if (editIndex >= 0 && editIndex < movieApp.GetMovieCount())
                             {
                                 Console.Write("Введите новое название фильма: ");
-                                string? newTitle = Console.ReadLine();
+                                string newTitle = Console.ReadLine();
                                 Console.Write("Введите нового режиссера: ");
-                                string? newDirector = Console.ReadLine();
+                                string newDirector = Console.ReadLine();
                                 Console.Write("Введите новый год выпуска: ");
                                 if (int.TryParse(Console.ReadLine(), out int newYear))
                                 {
                                     Console.Write("Введите жанры (через запятую): ");
-                                    List<string> newGenres = Console.ReadLine().Split(',').Select(g => g.Trim()).ToList();
+                                    string newGenresInput = Console.ReadLine();
+                                    List<Genre> newGenres = newGenresInput.Split(',')
+                                                                        .Select(s => Enum.Parse<Genre>(s.Trim()))
+                                                                        .ToList();
                                     movieApp.EditMovie(editIndex, newTitle, newDirector, newYear, newGenres);
                                     Console.WriteLine("Фильм успешно отредактирован.");
                                 }
@@ -126,7 +133,7 @@ namespace Filmography
                         var searchResults1 = movieApp.SearchMoviesByTitle(searchTitle);
                         if (searchResults1.Any())
                         {
-                            DisplayMovie(searchResults1);
+                            DisplayAllMovies(searchResults1);
                         }
                         else
                         {
@@ -139,7 +146,7 @@ namespace Filmography
                         var searchResults2 = movieApp.SearchMoviesByDirector(searchDirector);
                         if (searchResults2.Any())
                         {
-                            DisplayMovie(searchResults2);
+                            DisplayAllMovies(searchResults2);
                         }
                         else
                         {
@@ -154,7 +161,7 @@ namespace Filmography
                             var searchResults3 = movieApp.SearchMoviesByYear(searchYear);
                             if (searchResults3.Any())
                             {
-                                DisplayMovie(searchResults3);
+                                DisplayAllMovies(searchResults3);
                             }
                             else
                             {
@@ -168,48 +175,63 @@ namespace Filmography
                         break;
                     case "9":
                         Console.Write("Введите жанр для поиска: ");
-                        string searchGenre = Console.ReadLine();
-                        var searchResults4 = movieApp.SearchMoviesByGenre(searchGenre);
-                        if (searchResults4.Any())
+                        string searchGenreInput = Console.ReadLine();
+                        if (Enum.TryParse(searchGenreInput, out Genre searchGenre))
                         {
-                            DisplayMovie(searchResults4);
+                            var searchResult4 = movieApp.SearchMoviesByGenre(searchGenre);
+                            DisplayAllMovies(searchResult4);
                         }
                         else
                         {
-                            Console.WriteLine("Фильмы не найдены.");
+                            Console.WriteLine("Неверный жанр.");
                         }
                         break;
+                    case "10":
+                        var allGenres = movieApp.GetAllGenres();
+                        if (allGenres.Any())
+                        {
+                            Console.WriteLine("Все доступные жанры:");
+                            foreach (Genre genre in allGenres)
+                            {
+                                Console.WriteLine(genre);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Жанры не найдены.");
+                        }
+                        break;
+
                     case "0":
                         Console.WriteLine("До свидания!");
                         exit = true;
                         break;
 
                     default:
-                        Console.WriteLine("Неверный выбор.");
+                        Console.WriteLine("Неверная команда. Попробуйте еще раз.");
                         break;
                 }
             }
         }
 
-        public void DisplayMovie(List<Movie> movies)
-        {
-            Console.WriteLine("Результаты поиска:");
-            foreach (var movie in movies)
-            {
-                Console.WriteLine($"Название: {movie.Title}, Режиссер: {movie.Director}, Год: {movie.Year}");
-            }
-        }
         public void DisplayAllMovies(List<Movie> movies)
         {
-            foreach (var movie in movies)
+            if (movies.Any())
             {
-                Console.WriteLine($"Название: {movie.Title}");
-                Console.WriteLine($"Режиссер: {movie.Director}");
-                Console.WriteLine($"Год: {movie.Year}");
-                //Console.WriteLine("Жанры: " + string.Join(", ", movie.Genres));
-                Console.WriteLine();
+                foreach (var movie in movies)
+                {
+                    Console.WriteLine($"Название: {movie.Title}");
+                    Console.WriteLine($"Режиссер: {movie.Director}");
+                    Console.WriteLine($"Год: {movie.Year}");
+                    Console.WriteLine("Жанры: " + string.Join(", ", movie.Genres));
+                    Console.WriteLine();
+                }
+            }
+            else 
+            { 
+                Console.WriteLine("Фильмотека пуста."); 
             }
         }
-        
+
     }
 }
