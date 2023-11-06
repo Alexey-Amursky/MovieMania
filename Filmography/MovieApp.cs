@@ -28,10 +28,8 @@ namespace Filmography
             Movie movie = new Movie(title, director, year, genres);
             movieLibrary.AddMovie(movie);
         }
-        public int GetMovieCount()
-        {
-            return movieLibrary.GetMovieCount();
-        }
+        public int GetMovieCount() => movieLibrary.GetMovieCount();
+
         public void EditMovie(int index, string newTitle, string newDirector, int newYear, List<Genre> genre)
         {
             if (index >= 0 && index < movieLibrary.GetMovieCount())
@@ -46,22 +44,14 @@ namespace Filmography
                 movieLibrary.DeleteMovie(index);
             }
         }
-        public List<Movie> SearchMoviesByTitle(string title)
-        {
-            return movieLibrary.SearchMoviesByTitle(title);
-        }
-        public List<Movie> SearchMoviesByDirector(string director)
-        {
-            return movieLibrary.SearchMoviesByDirector(director);
-        }
-        public List<Movie> SearchMoviesByYear(int year)
-        {
-            return movieLibrary.SearchMoviesByYear(year);
-        }
-        public List<Movie> SearchMoviesByGenre(Genre genre)
-        {
-            return movieLibrary.SearchMoviesByGenre(genre);
-        }
+        public List<Movie> SearchMoviesByTitle(string title) => movieLibrary.SearchMoviesByTitle(title);
+
+        public List<Movie> SearchMoviesByDirector(string director) => movieLibrary.SearchMoviesByDirector(director);
+
+        public List<Movie> SearchMoviesByYear(int year) => movieLibrary.SearchMoviesByYear(year);
+
+        public List<Movie> SearchMoviesByGenre(Genre genre) => movieLibrary.SearchMoviesByGenre(genre);
+
         public List<Movie> GetAllMovies() => movieLibrary.GetAllMovies();
 
         public void SaveDataToFile()
