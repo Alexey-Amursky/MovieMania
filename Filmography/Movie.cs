@@ -18,9 +18,10 @@ namespace Filmography
         public AgeRating AgeRating { get; set; }
 
         public Movie() { }
-        public Movie(string title, string director, int year, List<Genre>? genres, decimal rating, List<Actor> actors, AgeRating ageRating)
+        public Movie(string title, string description, string director, int year, List<Genre>? genres, decimal rating, List<Actor> actors, AgeRating ageRating)
         {
             Title = title;
+            Description = description;
             Director = director;
             Year = year;
             Genres = genres ?? new List<Genre>();
