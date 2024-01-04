@@ -9,9 +9,14 @@ namespace Filmography
     public class Movie
     {
         public string Title { get; set; }
-        public string Director { get; set; }
-        public int Year { get; set; }
+        public string Description { get; set; }
         public List<Genre> Genres { get; set; }
+        public int Year { get; set; }
+        public string Director { get; set; }
+        public decimal Rating { get; set; }
+        public List<Actor> Actors { get; set; }
+        public AgeRating AgeRating { get; set; }
+
         public Movie() { }
         public Movie(string title, string director, int year, List<Genre>? genres)
         {
