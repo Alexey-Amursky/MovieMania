@@ -26,13 +26,7 @@ namespace Filmography
                 switch (choice)
                 {
                     case "1":
-                        MovieBuilder movieBuilder = CreateMovie();
-                        if (movieBuilder != null)
-                        {
-                            Movie newMovie = movieBuilder.Build();
-                            movieApp.AddMovie(newMovie);
-                            Console.WriteLine("Фильм успешно добавлен.");
-                        }
+                        CreateMovie(movieApp);
                         break; // ok
 
                     case "2":
@@ -45,107 +39,40 @@ namespace Filmography
                         break; // ok
 
                     case "4":
-                        
                         EditMovieById(movieApp);
                         break; // ok
 
                     case "5":
-                        Console.WriteLine("Введите индекс фильма, который вы хотите удалить:");
-                        if (int.TryParse(Console.ReadLine(), out int deleteIndex))
-                        {
-                            if (deleteIndex >= 0 && deleteIndex < movieApp.GetMovieCount())
-                            {
-                                movieApp.DeleteMovie(deleteIndex);
-                                Console.WriteLine("Фильм успешно удален.");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Неверный индекс фильма.");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Неверный формат индекса.");
-                        }
-                        break;
+                        DeleteFilmById(movieApp);
+                        break; // ok
+
                     case "6":
-                        Console.Write("Введите часть названия фильма для поиска: ");
-                        string searchTitle = Console.ReadLine().ToLower();
-                        var searchResults1 = movieApp.SearchMoviesByTitle(searchTitle);
-                        if (searchResults1.Any())
-                        {
-                            DisplayAllMovies(searchResults1);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Фильмы не найдены.");
-                        }
-                        break;
+                        SearchMovieByTitle(movieApp);
+                        break; // ok
+
                     case "7":
-                        Console.Write("Введите часть имени режиссера для поиска: ");
-                        string searchDirector = Console.ReadLine().ToLower();
-                        var searchResults2 = movieApp.SearchMoviesByDirector(searchDirector);
-                        if (searchResults2.Any())
-                        {
-                            DisplayAllMovies(searchResults2);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Фильмы не найдены.");
-                        }
-                        break;
+                        SearchMovieByDirector(movieApp);
+                        break; // ok
 
                     case "8":
-                        Console.Write("Введите год выпуска фильма для поиска: ");
-                        if (int.TryParse(Console.ReadLine(), out int searchYear))
-                        {
-                            var searchResults3 = movieApp.SearchMoviesByYear(searchYear);
-                            if (searchResults3.Any())
-                            {
-                                DisplayAllMovies(searchResults3);
-                            }
-                            else
-                            {
-                                Console.WriteLine("Фильмы не найдены.");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Неверный формат года.");
-                        }
-                        break;
+                        SearchMovieByYear(movieApp);
+                        break; // ok
+
                     case "9":
-                        Console.Write("Введите жанр для поиска: ");
-                        string searchGenreInput = Console.ReadLine();
-                        if (Enum.TryParse(searchGenreInput, out Genre searchGenre))
-                        {
-                            var searchResult4 = movieApp.SearchMoviesByGenre(searchGenre);
-                            DisplayAllMovies(searchResult4);
-                        }
-                        else
-                        {
-                            Console.WriteLine("Неверный жанр.");
-                        }
-                        break;
+                        SearchMovieByGenre(movieApp);
+                        break; // ok
+
                     case "10":
-                        var allGenres = movieApp.GetAllGenres();
-                        if (allGenres.Any())
-                        {
-                            Console.WriteLine("Все доступные жанры:");
-                            foreach (Genre genre in allGenres)
-                            {
-                                Console.WriteLine(genre);
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Жанры не найдены.");
-                        }
+                        ShowAllGenres(movieApp); // ok
                         break;
 
                     case "0":
                         Console.WriteLine("До свидания!");
                         exit = true;
+                        break;
+
+                    case "start":
+                        RunMovieById();
                         break;
 
                     default:
@@ -175,7 +102,7 @@ namespace Filmography
             Console.WriteLine("0. Выйти");
         }
 
-        private MovieBuilder CreateMovie()
+        private void CreateMovie(MovieApp movieApp)
         {
             MovieBuilder movieBuilder = new MovieBuilder();
 
@@ -186,7 +113,7 @@ namespace Filmography
             Console.Write("Введите год выпуска: ");
             if (int.TryParse(Console.ReadLine(), out int year))
             {
-                Console.Write("Введите жанры (через запятую): ");
+                Console.Write("Введите жанры (через запятую): ");// Необходимо вводить точное название жанров как в Genre (нужно этот момент доработать)
                 string genresInput = Console.ReadLine();
                 List<Genre> genres = genresInput.Split(',')
                                               .Select(s => Enum.Parse<Genre>(s.Trim()))
@@ -202,7 +129,7 @@ namespace Filmography
                                                   .Select(name => new Actor(name[0], name[1]))
                                                   .ToList();
 
-                    Console.Write("Введите возрастной рейтинг: ");
+                    Console.Write("Введите возрастной рейтинг: "); // Необходимо вводить точное название возрастных рейтингов как в AgeRating (нужно этот момент доработать)
                     if (Enum.TryParse(Console.ReadLine(), out AgeRating ageRating))
                     {
                         Console.Write("Введите описание: ");
@@ -211,7 +138,7 @@ namespace Filmography
                         Console.Write("Введите путь к файлу: ");
                         string path = Console.ReadLine();
 
-                        return movieBuilder
+                        movieBuilder
                             .SetTitle(title)
                             .SetDirector(director)
                             .SetYear(year)
@@ -221,6 +148,13 @@ namespace Filmography
                             .SetAgeRating(ageRating)
                             .SetDescription(description)
                             .SetPath(path);
+
+                        if (movieBuilder != null)
+                        {
+                            Movie newMovie = movieBuilder.Build();
+                            movieApp.AddMovie(newMovie);
+                            Console.WriteLine("Фильм успешно добавлен.");
+                        }
                     }
                     else
                     {
@@ -238,7 +172,7 @@ namespace Filmography
             }
 
             return null;
-        }
+        } // ok
 
         private void DisplayAllMovies(List<Movie> movies)
         {
@@ -258,11 +192,11 @@ namespace Filmography
                     Console.WriteLine();
                 }
             }
-            else 
-            { 
-                Console.WriteLine("Фильмотека пуста."); 
+            else
+            {
+                Console.WriteLine("Фильмотека пуста.");
             }
-        }
+        } // ok
 
         private void ShowActors(List<Actor> actors)
         {
@@ -272,13 +206,14 @@ namespace Filmography
                 Console.WriteLine($"|{actor.FirstName} {actor.LastName}|");
             }
             Console.WriteLine("]");
-        }
+        } // ok
+
         private void EditMovieById(MovieApp movieApp)
         {
-            Console.WriteLine("Введите индекс фильма, который вы хотите отредактировать:");
-            if (int.TryParse(Console.ReadLine(), out int editIndex))
+            Console.WriteLine("Введите ID фильма, который вы хотите отредактировать:");
+            if (int.TryParse(Console.ReadLine(), out int editId))
             {
-                if (editIndex >= 0 && editIndex < movieApp.GetMovieCount())
+                if (editId >= 0 && editId < movieApp.GetMovieCount())
                 {
                     Console.Write("Введите новое название фильма: ");
                     string newTitle = Console.ReadLine();
@@ -292,7 +227,7 @@ namespace Filmography
                         List<Genre> newGenres = newGenresInput.Split(',')
                                                             .Select(s => Enum.Parse<Genre>(s.Trim()))
                                                             .ToList();
-                        movieApp.EditMovie(editIndex, newTitle, newDirector, newYear, newGenres);
+                        movieApp.EditMovie(editId, newTitle, newDirector, newYear, newGenres);
                         Console.WriteLine("Фильм успешно отредактирован.");
                     }
                     else
@@ -309,8 +244,111 @@ namespace Filmography
             {
                 Console.WriteLine("Неверный формат индекса.");
             }
-        }
+        } // ok
 
+        public void DeleteFilmById(MovieApp movieApp)
+        {
+            Console.WriteLine("Введите ID фильма, который вы хотите удалить:");
+            if (int.TryParse(Console.ReadLine(), out int deleteId))
+            {
+                if (deleteId >= 0 && deleteId < movieApp.GetMovieCount())
+                {
+                    movieApp.DeleteMovie(deleteId);
+                    Console.WriteLine("Фильм успешно удален.");
+                }
+                else
+                {
+                    Console.WriteLine("Неверный ID фильма.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Неверный формат ID.");
+            }
+        } // ok
+
+        public void SearchMovieByTitle(MovieApp movieApp)
+        {
+            Console.Write("Введите названия фильма или его часть для поиска: ");
+            string searchFilm = Console.ReadLine().ToLower();
+            var searchResults1 = movieApp.SearchMoviesByTitle(searchFilm);
+            if (searchResults1.Any())
+            {
+                DisplayAllMovies(searchResults1);
+            }
+            else
+            {
+                Console.WriteLine("Фильмы не найдены.");
+            }
+        } // ok
+
+        public void SearchMovieByDirector(MovieApp movieApp)
+        {
+            Console.Write("Введите часть имени режиссера для поиска: ");
+            string searchDirector = Console.ReadLine().ToLower();
+            var searchResults2 = movieApp.SearchMoviesByDirector(searchDirector);
+            if (searchResults2.Any())
+            {
+                DisplayAllMovies(searchResults2);
+            }
+            else
+            {
+                Console.WriteLine("Фильмы не найдены.");
+            }
+        } // ok
+
+        public void SearchMovieByYear(MovieApp movieApp)
+        {
+            Console.Write("Введите год выпуска фильма для поиска: ");
+            if (int.TryParse(Console.ReadLine(), out int searchYear))
+            {
+                var searchResults3 = movieApp.SearchMoviesByYear(searchYear);
+                if (searchResults3.Any())
+                {
+                    DisplayAllMovies(searchResults3);
+                }
+                else
+                {
+                    Console.WriteLine("Фильмы не найдены.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Неверный формат года.");
+            }
+        } // ok
+
+        public void SearchMovieByGenre(MovieApp movieApp)
+        {
+            Console.Write("Введите жанр для поиска: ");
+            string searchGenreInput = Console.ReadLine();
+            if (Enum.TryParse(searchGenreInput, out Genre searchGenre))
+            {
+                var searchResult4 = movieApp.SearchMoviesByGenre(searchGenre);
+                DisplayAllMovies(searchResult4);
+            }
+            else
+            {
+                Console.WriteLine("Неверный жанр.");
+            }
+        } // ok
+
+        public void ShowAllGenres(MovieApp movieApp)
+        {
+            var allGenres = movieApp.GetAllGenres();
+            if (allGenres.Any())
+            {
+                Console.WriteLine("Все доступные жанры:");
+                foreach (Genre genre in allGenres)
+                {
+                    Console.WriteLine(genre);
+                }
+            }
+            else
+            {
+                Console.WriteLine("Жанры не найдены.");
+            }
+        } // ok
 
         private void RunMovieById()
         {
