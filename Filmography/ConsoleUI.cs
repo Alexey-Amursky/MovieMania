@@ -170,8 +170,6 @@ namespace Filmography
             {
                 Console.WriteLine("Неверный формат года.");
             }
-
-            return null;
         } // ok
 
         private void DisplayAllMovies(List<Movie> movies)
