@@ -19,7 +19,7 @@ namespace Filmography
             bool exit = false;
             while (!exit)
             {
-                
+                Menu();
 
                 string choice = Console.ReadLine();
 
@@ -248,15 +248,14 @@ namespace Filmography
                 {
                     Console.WriteLine($"Id:  {movie.Id}");
                     Console.WriteLine($"Название: {movie.Title}");
-                    Console.WriteLine($"Описание: {movie.Description}");
-                    Console.WriteLine($"Режиссер: {movie.Director}");
+                    Console.WriteLine($"Рейтинг: {movie.Rating}");
                     Console.WriteLine($"Год: {movie.Year}");
+                    Console.WriteLine($"Описание: {movie.Description}");
                     Console.WriteLine("Жанры: " + string.Join(", ", movie.Genres));
+                    Console.WriteLine("Возрастной рейтинг: " + string.Join(", ", movie.AgeRating));
+                    ShowActors(movie.Actors);
+                    Console.WriteLine($"Режиссер: {movie.Director}");
                     Console.WriteLine();
-                    foreach(var actor in movie.Actors)
-                    {
-                        Console.WriteLine();
-                    }
                 }
             }
             else 
@@ -267,10 +266,10 @@ namespace Filmography
 
         private void ShowActors(List<Actor> actors)
         {
-            Console.Write("[");
+            Console.Write("Актёры: [");
             foreach (var actor in actors)
             {
-                Console.WriteLine($"{actor.FirstName} {actor.LastName}");
+                Console.WriteLine($"|{actor.FirstName} {actor.LastName}|");
             }
             Console.WriteLine("]");
         }
