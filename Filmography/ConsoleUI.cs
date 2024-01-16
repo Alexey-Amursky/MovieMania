@@ -14,99 +14,40 @@ namespace Filmography
         {
             movieApp = new MovieApp();
         }
-
         public void Run()
         {
             bool exit = false;
             while (!exit)
             {
-                Console.WriteLine("Нажмите Enter для продолжения");
-                Console.ReadKey();
-                Console.Clear();
-                Console.WriteLine("Выберите действие:");
-                Console.WriteLine("1. Добавить фильм");
-                Console.WriteLine("2. Показать все фильмы");
-                Console.WriteLine("3. Сохранить данные в файл");
-                Console.WriteLine("4. Редактировать фильм");
-                Console.WriteLine("5. Удалить фильм");
-                Console.WriteLine("6. Поиск по названию");
-                Console.WriteLine("7. Поиск по режиссеру");
-                Console.WriteLine("8. Поиск по году");
-                Console.WriteLine("9. Поиск по жанру");
-                Console.WriteLine("10. Показать все жанры");
-                Console.WriteLine("0. Выйти");
+                
 
                 string choice = Console.ReadLine();
 
                 switch (choice)
                 {
                     case "1":
-                        Console.Write("Введите название фильма: ");
-                        string title = Console.ReadLine();
-                        Console.Write("Введите режиссера: ");
-                        string director = Console.ReadLine();
-                        Console.Write("Введите год выпуска: ");
-                        if (int.TryParse(Console.ReadLine(), out int year))
+                        MovieBuilder movieBuilder = CreateMovie();
+                        if (movieBuilder != null)
                         {
-                            Console.Write("Введите жанры (через запятую): ");
-                            string genresInput = Console.ReadLine();
-                            List<Genre> genres = genresInput.Split(',')
-                                                              .Select(s => Enum.Parse<Genre>(s.Trim()))
-                                                              .ToList();
-                            movieApp.AddMovie(title, director, year, genres);
+                            Movie newMovie = movieBuilder.Build();
+                            movieApp.AddMovie(newMovie);
                             Console.WriteLine("Фильм успешно добавлен.");
                         }
-                        else
-                        {
-                            Console.WriteLine("Неверный формат года.");
-                        }
-                        break;
+                        break; // ok
 
                     case "2":
                         DisplayAllMovies(movieApp.GetAllMovies());
-                        break;
+                        break; // ok
 
                     case "3":
                         movieApp.SaveDataToFile();
                         Console.WriteLine("Данные сохранены в файл.");
-                        break;
+                        break; // ok
 
                     case "4":
-                        Console.WriteLine("Введите индекс фильма, который вы хотите отредактировать:");
-                        if (int.TryParse(Console.ReadLine(), out int editIndex))
-                        {
-                            if (editIndex >= 0 && editIndex < movieApp.GetMovieCount())
-                            {
-                                Console.Write("Введите новое название фильма: ");
-                                string newTitle = Console.ReadLine();
-                                Console.Write("Введите нового режиссера: ");
-                                string newDirector = Console.ReadLine();
-                                Console.Write("Введите новый год выпуска: ");
-                                if (int.TryParse(Console.ReadLine(), out int newYear))
-                                {
-                                    Console.Write("Введите жанры (через запятую): ");
-                                    string newGenresInput = Console.ReadLine();
-                                    List<Genre> newGenres = newGenresInput.Split(',')
-                                                                        .Select(s => Enum.Parse<Genre>(s.Trim()))
-                                                                        .ToList();
-                                    movieApp.EditMovie(editIndex, newTitle, newDirector, newYear, newGenres);
-                                    Console.WriteLine("Фильм успешно отредактирован.");
-                                }
-                                else
-                                {
-                                    Console.WriteLine("Неверный формат года.");
-                                }
-                            }
-                            else
-                            {
-                                Console.WriteLine("Неверный индекс фильма.");
-                            }
-                        }
-                        else
-                        {
-                            Console.WriteLine("Неверный формат индекса.");
-                        }
-                        break;
+                        
+                        EditMovieById(movieApp);
+                        break; // ok
 
                     case "5":
                         Console.WriteLine("Введите индекс фильма, который вы хотите удалить:");
@@ -214,17 +155,108 @@ namespace Filmography
             }
         }
 
-        public void DisplayAllMovies(List<Movie> movies)
+        public void Menu()
+        {
+            Console.WriteLine("Нажмите Enter для продолжения");
+            Console.ReadKey();
+            Console.Clear();
+            Console.WriteLine("Выберите действие:");
+            Console.WriteLine("1. Добавить фильм");
+            Console.WriteLine("2. Показать все фильмы");
+            Console.WriteLine("3. Сохранить данные в файл");
+            Console.WriteLine("4. Редактировать фильм");
+            Console.WriteLine("5. Удалить фильм");
+            Console.WriteLine("6. Поиск по названию");
+            Console.WriteLine("7. Поиск по режиссеру");
+            Console.WriteLine("8. Поиск по году");
+            Console.WriteLine("9. Поиск по жанру");
+            Console.WriteLine("10. Показать все жанры");
+            Console.WriteLine("Введите 'start' для запуска фильма по id");
+            Console.WriteLine("0. Выйти");
+        }
+
+        private MovieBuilder CreateMovie()
+        {
+            MovieBuilder movieBuilder = new MovieBuilder();
+
+            Console.Write("Введите название фильма: ");
+            string title = Console.ReadLine();
+            Console.Write("Введите режиссера: ");
+            string director = Console.ReadLine();
+            Console.Write("Введите год выпуска: ");
+            if (int.TryParse(Console.ReadLine(), out int year))
+            {
+                Console.Write("Введите жанры (через запятую): ");
+                string genresInput = Console.ReadLine();
+                List<Genre> genres = genresInput.Split(',')
+                                              .Select(s => Enum.Parse<Genre>(s.Trim()))
+                                              .ToList();
+
+                Console.Write("Введите рейтинг: ");
+                if (decimal.TryParse(Console.ReadLine(), out decimal rating))
+                {
+                    Console.Write("Введите актеров (через запятую): ");
+                    string actorsInput = Console.ReadLine();
+                    List<Actor> actors = actorsInput.Split(',')
+                                                  .Select(actor => actor.Split(' '))
+                                                  .Select(name => new Actor(name[0], name[1]))
+                                                  .ToList();
+
+                    Console.Write("Введите возрастной рейтинг: ");
+                    if (Enum.TryParse(Console.ReadLine(), out AgeRating ageRating))
+                    {
+                        Console.Write("Введите описание: ");
+                        string description = Console.ReadLine();
+
+                        Console.Write("Введите путь к файлу: ");
+                        string path = Console.ReadLine();
+
+                        return movieBuilder
+                            .SetTitle(title)
+                            .SetDirector(director)
+                            .SetYear(year)
+                            .SetGenres(genres)
+                            .SetRating(rating)
+                            .SetActors(actors)
+                            .SetAgeRating(ageRating)
+                            .SetDescription(description)
+                            .SetPath(path);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Неверный формат возрастного рейтинга.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Неверный формат рейтинга.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Неверный формат года.");
+            }
+
+            return null;
+        }
+
+        private void DisplayAllMovies(List<Movie> movies)
         {
             if (movies.Any())
             {
                 foreach (var movie in movies)
                 {
+                    Console.WriteLine($"Id:  {movie.Id}");
                     Console.WriteLine($"Название: {movie.Title}");
+                    Console.WriteLine($"Описание: {movie.Description}");
                     Console.WriteLine($"Режиссер: {movie.Director}");
                     Console.WriteLine($"Год: {movie.Year}");
                     Console.WriteLine("Жанры: " + string.Join(", ", movie.Genres));
                     Console.WriteLine();
+                    foreach(var actor in movie.Actors)
+                    {
+                        Console.WriteLine();
+                    }
                 }
             }
             else 
@@ -233,5 +265,76 @@ namespace Filmography
             }
         }
 
+        private void ShowActors(List<Actor> actors)
+        {
+            Console.Write("[");
+            foreach (var actor in actors)
+            {
+                Console.WriteLine($"{actor.FirstName} {actor.LastName}");
+            }
+            Console.WriteLine("]");
+        }
+        private void EditMovieById(MovieApp movieApp)
+        {
+            Console.WriteLine("Введите индекс фильма, который вы хотите отредактировать:");
+            if (int.TryParse(Console.ReadLine(), out int editIndex))
+            {
+                if (editIndex >= 0 && editIndex < movieApp.GetMovieCount())
+                {
+                    Console.Write("Введите новое название фильма: ");
+                    string newTitle = Console.ReadLine();
+                    Console.Write("Введите нового режиссера: ");
+                    string newDirector = Console.ReadLine();
+                    Console.Write("Введите новый год выпуска: ");
+                    if (int.TryParse(Console.ReadLine(), out int newYear))
+                    {
+                        Console.Write("Введите жанры (через запятую): ");
+                        string newGenresInput = Console.ReadLine();
+                        List<Genre> newGenres = newGenresInput.Split(',')
+                                                            .Select(s => Enum.Parse<Genre>(s.Trim()))
+                                                            .ToList();
+                        movieApp.EditMovie(editIndex, newTitle, newDirector, newYear, newGenres);
+                        Console.WriteLine("Фильм успешно отредактирован.");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Неверный формат года.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Неверный индекс фильма.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Неверный формат индекса.");
+            }
+        }
+
+
+        private void RunMovieById()
+        {
+            Console.WriteLine("Введите ID фильма, который вы хотите запустить:");
+            if (int.TryParse(Console.ReadLine(), out int runId))
+            {
+                if (runId >= 0 && runId < movieApp.GetMovieCount())
+                {
+                    Movie selectedMovie = movieApp.GetMovieById(runId);
+
+                    Console.WriteLine($"Сейчас запущен: {selectedMovie.Title}");
+
+                    Procedure.RunMovie(selectedMovie);
+                }
+                else
+                {
+                    Console.WriteLine("Неверный ID фильма.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Неверный формат ID.");
+            }
+        } // ok
     }
 }

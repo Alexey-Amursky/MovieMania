@@ -8,7 +8,9 @@ namespace Filmography.Interfaces
 {
     public interface IMovieApp
     {
-        void AddMovie(string title, string director, int year, List<Genre> genres);
+        void AddMovie(string title, string description, string director, int year, List<Genre>? genres, decimal rating, List<Actor> actors, AgeRating ageRating);
+        void EditMovie(int index, string newTitle, string newDirector, int newYear, List<Genre> genre);
+        void DeleteMovie(int index);
         void DisplayAllMovies();
     }
 }

@@ -14,27 +14,31 @@ namespace Filmography
         public void AddMovie(Movie movie)
         {
             movies.Add(movie);
-        }
-        public void EditMovie(int index, Movie newMovie)
+        } // ok
+        public void EditMovie(int movieId, Movie newMovie)
         {
-            if (index >= 0 && index < movies.Count)
+            if (movieId >= 0 && movieId < movies.Count)
             {
-                movies[index] = newMovie;
+                newMovie = movies.FirstOrDefault<Movie>(a => a.Id == movieId);
             }
-        }
-        public void DeleteMovie(int index)
+        } // ok
+        public void DeleteMovie(int id)
         {
-            if (index >= 0 && index < movies.Count)
+            if (id >= 0 && id < movies.Count)
             {
-                movies.RemoveAt(index);
+                movies.Remove(movies.FirstOrDefault<Movie>(m => m.Id == id));
             }
-        }
+        } // ok
         public List<Movie> SearchMoviesByTitle(string title) => movies.Where(movie => movie.Title.ToLower().Contains(title)).ToList();
         public List<Movie> SearchMoviesByDirector(string director) => movies.Where(movie => movie.Director.ToLower().Contains(director)).ToList();
         public List<Movie> SearchMoviesByYear(int year) => movies.Where(movie => movie.Year == year).ToList();
         public List<Movie> SearchMoviesByGenre(Genre genre) => movies.Where(movie => movie.Genres.Contains(genre)).ToList();
         public List<Movie> GetAllMovies() => movies;
         public int GetMovieCount() => movies.Count;
+        public Movie? GetMovieById(int id)
+        {
+            return movies.FirstOrDefault<Movie>(m => m.Id == id);
+        }
 
     }
 }

@@ -8,9 +8,18 @@ namespace Filmography
 {
     public class Actor
     {
+        private static int id = 0;
+        public int Id { get; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Patronymic { get; set; }
-        public DateTime BirthDate { get; set; }
+
+        public Actor(string firstName, string lastName)
+        {
+            Id = ++id;
+            FirstName = firstName;
+            LastName = lastName;
+        }
+
+        public int GetActorId() => Id;
     }
 }
