@@ -1,6 +1,7 @@
 ﻿using Filmography.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,6 +60,7 @@ namespace Filmography
                 Actors.Remove(Actors.FirstOrDefault<Actor>(a => a.Id == actorId));
             }
         }
+        
     }
 }
 // можно добавить рейтинг / описание фильма / возрастной рейтинг / актёрский состав / пользователь(история просмотров) / 

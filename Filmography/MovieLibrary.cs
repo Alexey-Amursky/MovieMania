@@ -14,14 +14,7 @@ namespace Filmography
         public void AddMovie(Movie movie)
         {
             movies.Add(movie);
-        } // ok
-        public void EditMovie(int movieId, Movie newMovie)
-        {
-            if (movieId >= 0 && movieId < movies.Count)
-            {
-                newMovie = movies.FirstOrDefault<Movie>(a => a.Id == movieId);
-            }
-        } // ok
+        } // ok        
         public void DeleteMovie(int id)
         {
             if (id >= 0 && id < movies.Count)

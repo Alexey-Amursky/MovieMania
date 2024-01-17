@@ -9,7 +9,6 @@ namespace Filmography.Interfaces
     public interface IMovieEditor
     {
         void AddMovie(Movie movie);
-        void EditMovie(int index, Movie updatedMovie);
         void DeleteMovie(int index);
     }
 }

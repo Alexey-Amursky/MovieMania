@@ -36,13 +36,6 @@ namespace Filmography
             Movie movie = new Movie(title, description, director, year, genres, rating, actors, ageRating);
             movieLibrary.AddMovie(movie);
         } // ok
-        public void EditMovie(int index, string newTitle, string newDirector, int newYear, List<Genre> genre)
-        {
-            if (index >= 0 && index < movieLibrary.GetMovieCount())
-            {
-                movieLibrary.EditMovie(index, new Movie {Title = newTitle,Director = newDirector,Year = newYear, Genres = genre });
-            }
-        } // ok
         public void DeleteMovie(int id)
         {
             if (id >= 0 && id < movieLibrary.GetMovieCount())
@@ -66,10 +59,7 @@ namespace Filmography
         #region Getters
         public List<Movie> GetAllMovies() => movieLibrary.GetAllMovies(); // ok
 
-        public Movie? GetMovieById(int movieId)
-        {
-            return movieLibrary.GetMovieById(movieId);
-        } // ok
+        public Movie? GetMovieById(int movieId) => movieLibrary.GetMovieById(movieId);        
 
         public List<Genre> GetAllGenres()
         {
@@ -77,13 +67,14 @@ namespace Filmography
 
             foreach (var movie in movieLibrary.GetAllMovies())
             {
-                allGenres.AddRange(movie.Genres);
+                allGenres.AddRange(movie?.Genres);
             }
 
             List<Genre> uniqueGenres = allGenres.Distinct().ToList();
 
             return uniqueGenres;
         } // ok
+
         #endregion
 
         public void SaveDataToFile()
