@@ -13,6 +13,7 @@ namespace Filmography
         Fantasy,
         Comedy,
         Horror,
-        Drama
+        Drama,
+        Сartoon
     }
 }

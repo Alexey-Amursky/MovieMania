@@ -201,12 +201,12 @@ namespace Filmography
 
         private void ShowActors(List<Actor> actors)
         {
-            Console.Write("Актёры: [");
+            Console.Write("Актёры: |");
             foreach (var actor in actors)
             {
-                Console.WriteLine($"|{actor.FirstName} {actor.LastName}|");
+                Console.Write($"{actor.FirstName} {actor.LastName}|");
             }
-            Console.WriteLine("]");
+            Console.WriteLine();
         } // ok
 
         private void EditMovieById(MovieApp movieApp)

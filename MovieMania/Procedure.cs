@@ -11,9 +11,14 @@ namespace Filmography
     {
         public static void RunMovie(Movie? movie)
         {
+            var processInfo = new ProcessStartInfo
+            {
+                FileName = @"C:\Program Files\VideoLAN\VLC\vlc.exe",
+                Arguments = movie?.Path
+            };
             if (movie != null)
             {
-                Process.Start(movie?.Path);
+                Process.Start(processInfo);
             }
         }
     }

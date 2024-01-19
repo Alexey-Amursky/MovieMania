@@ -18,7 +18,7 @@ namespace Filmography
         public string? Description { get; set; }
         public List<Genre>? Genres { get; set; }
         public AgeRating? AgeRating { get; set; }
-        public List<Actor> Actors { get; private set; }
+        public List<Actor> Actors { get; set; }
         public string? Director { get; set; }
         public string? Path { get; set; }
 
